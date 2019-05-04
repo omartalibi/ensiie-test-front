@@ -22,3 +22,89 @@ jetpackService.getJetpacks().then(jetpacks => {
 
     document.getElementById('jetpacks').innerHTML = html;
 });
+
+
+var name = document.querySelector('input#j_name');
+var image = document.querySelector('input#j_image');
+var submit = document.querySelector('button#j_submit');
+
+var start = document.querySelector('input#start');
+var end = document.querySelector('input#end');
+var r_submit = document.querySelector('button#r_submit');
+
+function filterByDate(jetpacks,availabilities,startDate,endDate){
+    if(startDate.length == 0 || endDate.length == 0){
+        return [];
+    }
+    startDateObj = new Date(startDate);
+    endDateObj = new Date(endDate);
+    console.log([jetpacks,availabilities,startDateObj,endDateObj]);
+    availabilities = availabilities.filter(a => (startDateObj.getTime() <= (new Date(a.start_date)).getTime() &&
+                                                endDateObj.getTime() >= (new Date(a.end_date)).getTime()));
+    console.log({"filtered availabilities:":availabilities});
+    return jetpacks.filter(jetpack => availabilities.some(a => a.jetpack_id == jetpack.id));
+}
+
+function submitJetpack(){
+    var files = image.files;
+    var jetpack_name = name.value;
+    if(files.length == 0){
+        console.log('no file selected');end
+    }
+    else{
+        var reader = new FileReader();
+        reader.onload = function(e){
+            console.log(e.target.result);
+            jetpackService.postJetpack({name:jetpack_name,image:e.target.result}).then(response => {
+                console.log(response);
+            });
+        }
+        var raw = reader.readAsDataURL(files[0]);
+    }
+}
+
+function bookJetpack(jpid){
+    console.log(jpid);
+    var later = new Date();
+    later.setDate(30);
+    jetpackService.postBookings({
+        "jetpack_id": jpid,
+        "start_date": (new Date()).toJSON(),
+        "end_date": later.toJSON()
+    }).then(response => {
+        console.log(response);
+    });
+}
+
+function searchAvailabilities(){
+    jetpackService.getAvailabilities({}).then(availabilities => {
+        console.log(availabilities);
+        jetpackService.getJetpacks().then(jetpacks => {
+            jetpacks = filterByDate(jetpacks,availabilities,start.value,end.value);
+            let html =  '';
+            jetpacks.forEach((jetpack) => {
+                html +=
+                    '<div class="card" style="width: 18rem;">\n' +
+                    '  <img src="'+ jetpack.image +'" class="card-img-top" alt="...">\n' +
+                    '  <div class="card-body">\n' +
+                    '    <h5 class="card-title">' + jetpack.name + '</h5>\n' +
+                    '    <button class="btn btn-primary reserve">Réserver</button>\n' +
+                    '  </div>\n' +
+                    '</div>'
+        
+            });
+            document.getElementById('search_result').innerHTML = html;
+            let reserves = document.getElementsByClassName("reserve");
+            console.log(reserves);
+            for(let i = 0; i < reserves.length; i++){
+                reserves[i].addEventListener('click',bookJetpack,jetpacks[i].id);
+            }
+
+        });
+    });
+}
+
+
+
+submit.addEventListener('click',submitJetpack);
+r_submit.addEventListener('click',searchAvailabilities);
