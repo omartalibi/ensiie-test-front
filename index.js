@@ -1,10 +1,29 @@
 const appConfig = require('./app.config');
 const JetpackService = require('./src/Service/Api/JetpackApi');
 const HttpClient = require('./src/HttpClient');
+const filterByDate = require('./src/util');
 
 const httpClient = new HttpClient(appConfig.apiUrl);
 const jetpackService = new JetpackService(httpClient);
-const filterByDate = require('./src/util');
+
+
+jetpackService.getJetpacks().then(jetpacks => {
+    let html =  '';
+    jetpacks.forEach((jetpack) => {
+        html +=
+            '<div class="card" style="width: 18rem;">\n' +
+            '  <img src="'+ jetpack.image +'" class="card-img-top" alt="...">\n' +
+            '  <div class="card-body">\n' +
+            '    <h5 class="card-title">' + jetpack.name + '</h5>\n' +
+            '    <a href="#" class="btn btn-primary">Edit</a>\n' +
+            '  </div>\n' +
+            '</div>'
+
+    });
+
+    document.getElementById('jetpacks').innerHTML = html;
+});
+
 
 var name = document.querySelector('input#j_name');
 var image = document.querySelector('input#j_image');
@@ -13,8 +32,6 @@ var submit = document.querySelector('button#j_submit');
 var start = document.querySelector('input#start');
 var end = document.querySelector('input#end');
 var r_submit = document.querySelector('button#r_submit');
-
-
 
 
 /**
@@ -37,25 +54,6 @@ function submitJetpack(){
         var raw = reader.readAsDataURL(files[0]);
     }
 }
-
-
-
-jetpackService.getJetpacks().then(jetpacks => {
-    let html =  '';
-    jetpacks.forEach((jetpack) => {
-        html +=
-            '<div class="card" style="width: 18rem;">\n' +
-            '  <img src="'+ jetpack.image +'" class="card-img-top" alt="...">\n' +
-            '  <div class="card-body">\n' +
-            '    <h5 class="card-title">' + jetpack.name + '</h5>\n' +
-            '    <a href="#" class="btn btn-primary">Edit</a>\n' +
-            '  </div>\n' +
-            '</div>'
-
-    });
-
-    document.getElementById('jetpacks').innerHTML = html;
-});
 
 /**
  * 
@@ -95,7 +93,7 @@ function searchAvailabilities(){
                     '    <button class="btn btn-primary reserve">Réserver</button>\n' +
                     '  </div>\n' +
                     '</div>'
-
+        
             });
             document.getElementById('search_result').innerHTML = html;
             let reserves = document.getElementsByClassName("reserve");
@@ -109,5 +107,5 @@ function searchAvailabilities(){
 }
 
 
+submit.addEventListener('click',submitJetpack);
 r_submit.addEventListener('click',searchAvailabilities);
-

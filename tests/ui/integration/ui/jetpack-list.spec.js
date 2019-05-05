@@ -9,7 +9,12 @@ context('Jetpack list', () => {
         cy.contains('Jetpack Fortnite Wiki\n')
     })
 
+    it('Create Jetpacks', () => {
+        cy.get('#j_name').type('jetpack name')
+        .should('have.value', 'jetpack name')
 
+        cy.get('#j_submit').click()
+    })
 
     it('Search Jetpacks', () => {
         cy.get('#start').type('2/2/2 4:44')
@@ -22,12 +27,4 @@ context('Jetpack list', () => {
 
         cy.get('#search_result').contains('Jetpack Fortnite Wiki\n')
     })
-
-    it('Create Jetpacks', () => {
-        cy.get('#j_name').type('jetpack name')
-        .should('have.value', 'jetpack name')
-
-        cy.get('#j_submit').click()
-    })
-
 });
