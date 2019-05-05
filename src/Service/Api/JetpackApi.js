@@ -17,6 +17,7 @@ module.exports = class  {
         });
     }
 
+
     getAvailabilities(){
         return this.httpClient.fetch('/availabilities', {}).then(rows => {
             return rows;
@@ -33,9 +34,19 @@ module.exports = class  {
            //},
            // referrer: "no-referrer", // no-referrer, *client
             body: JSON.stringify(booking) // body data type must match "Content-Type" header
+        });
+    }
+   
+    postJetpack(jetpack) 
+    {
+
+        return this.httpClient.fetch('/jetpacks', {
+            method: "POST", 
+            body: JSON.stringify(jetpack) 
+
         }).then(response => {
             return response;
         });
     }
 
-};
+}

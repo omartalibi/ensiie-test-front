@@ -2,6 +2,34 @@
   "predicates": [
     {
       "equals": {
+        "method": "POST",
+        "path": "/jetpacks"
+      }
+    },
+    {
+      "matches": {
+      }
+    }
+  ],
+  "responses": [
+    {
+      "is": {
+        "headers": { "Access-Control-Allow-Origin": "*" },
+        "body": [
+          {
+            "name": "string",
+            "image": "image encodé en base 64"
+          }
+        ]
+      }
+    }
+  ]
+},
+
+{
+  "predicates": [
+    {
+      "equals": {
         "method": "GET",
         "path": "/jetpacks"
       }

@@ -6,9 +6,37 @@ const httpClient = new HttpClient(appConfig.apiUrl);
 const jetpackService = new JetpackService(httpClient);
 const filterByDate = require('./src/util');
 
+var name = document.querySelector('input#j_name');
+var image = document.querySelector('input#j_image');
+var submit = document.querySelector('button#j_submit');
+
+var start = document.querySelector('input#start');
+var end = document.querySelector('input#end');
+var r_submit = document.querySelector('button#r_submit');
 
 
 
+
+/**
+ * Send jetpack object to api: /postJetpack
+ */
+function submitJetpack(){
+    var files = image.files;
+    var jetpack_name = name.value;
+    if(files.length == 0){
+        console.log('no file selected');end
+    }
+    else{
+        var reader = new FileReader();
+        reader.onload = function(e){
+            console.log(e.target.result);
+            jetpackService.postJetpack({name:jetpack_name,image:e.target.result}).then(response => {
+                console.log(response);
+            });
+        }
+        var raw = reader.readAsDataURL(files[0]);
+    }
+}
 
 
 
@@ -82,3 +110,4 @@ function searchAvailabilities(){
 
 
 r_submit.addEventListener('click',searchAvailabilities);
+

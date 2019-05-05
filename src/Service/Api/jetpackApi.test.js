@@ -24,7 +24,7 @@ describe('JetpackApi  get Jetpacks', function () {
     });
 });
 
-
+      
 describe('JetpackApi  get Availabilites', function () {
 
     test('Test getAvailabiliteis', () => {
@@ -34,20 +34,21 @@ describe('JetpackApi  get Availabilites', function () {
 
         httpClientMock.fetch.mockResolvedValue([
             {
+
                 jetpack_id: "123",
                 start_date: "startdate",
                 end_date: "enddate"
-            }
+               }
         ]);
-
-        let jetpackApi = new JetpackApi(httpClientMock);
-        jetpackApi.getAvailabilities().then(resp => {
+      jetpackApi.getAvailabilities().then(resp => {
             expect(Array.isArray(resp)).toBe(true);
             expect(resp.length).toBe(1);
             /* try to find more tests*/
         });
     });
 });
+    
+
 
 describe('JetpackApi  post Bookings', function () {
 
@@ -72,3 +73,26 @@ describe('JetpackApi  post Bookings', function () {
         });
     });
 });
+
+  describe('JetpackApi  post Jetpacks', function () {
+
+    test('Test postJetpack', () => {
+
+        let jetpackApi = new JetpackApi(httpClientMock);
+
+        
+         httpClientMock.fetch.mockResolvedValue([
+            {
+                jetpack_id: "123",
+                start_date: "startdate",
+                end_date: "enddate"
+            }
+        ]);
+        jetpackApi.postJetpack().then(resp => {
+            expect(Array.isArray(resp)).toBe(true);
+            expect(resp.length).toBe(1);
+            expect(resp[0]).toBeInstanceOf(Jetpack)
+        });
+    });
+});
+
