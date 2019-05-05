@@ -1,6 +1,7 @@
 const appConfig = require('./app.config');
 const JetpackService = require('./src/Service/Api/JetpackApi');
 const HttpClient = require('./src/HttpClient');
+const filterByDate = require('./src/util');
 
 const httpClient = new HttpClient(appConfig.apiUrl);
 const jetpackService = new JetpackService(httpClient);
@@ -32,19 +33,10 @@ var start = document.querySelector('input#start');
 var end = document.querySelector('input#end');
 var r_submit = document.querySelector('button#r_submit');
 
-function filterByDate(jetpacks,availabilities,startDate,endDate){
-    if(startDate.length == 0 || endDate.length == 0){
-        return [];
-    }
-    startDateObj = new Date(startDate);
-    endDateObj = new Date(endDate);
-    console.log([jetpacks,availabilities,startDateObj,endDateObj]);
-    availabilities = availabilities.filter(a => (startDateObj.getTime() <= (new Date(a.start_date)).getTime() &&
-                                                endDateObj.getTime() >= (new Date(a.end_date)).getTime()));
-    console.log({"filtered availabilities:":availabilities});
-    return jetpacks.filter(jetpack => availabilities.some(a => a.jetpack_id == jetpack.id));
-}
 
+/**
+ * Send jetpack object to api: /postJetpack
+ */
 function submitJetpack(){
     var files = image.files;
     var jetpack_name = name.value;
@@ -63,6 +55,12 @@ function submitJetpack(){
     }
 }
 
+/**
+ * 
+ * @param {*} jpid 
+ *  reserve functionality
+ * send availability to api: /postBooking
+ */
 function bookJetpack(jpid){
     console.log(jpid);
     var later = new Date();
@@ -76,6 +74,10 @@ function bookJetpack(jpid){
     });
 }
 
+/**
+ * find available jetpacks based on date interval: /getAvailabilities
+ * updates DOM accordingly.
+ */
 function searchAvailabilities(){
     jetpackService.getAvailabilities({}).then(availabilities => {
         console.log(availabilities);
@@ -105,6 +107,6 @@ function searchAvailabilities(){
 }
 
 
-
 submit.addEventListener('click',submitJetpack);
 r_submit.addEventListener('click',searchAvailabilities);
+
