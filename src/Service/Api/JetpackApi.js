@@ -16,4 +16,16 @@ module.exports = class  {
             });
         });
     }
+
+   
+postJetpack(jetpack) 
+    {
+
+        return this.httpClient.fetch('/jetpacks', {
+            method: "POST", 
+            body: JSON.stringify(jetpack) 
+        }).then(response => {
+            return response;
+        });
+    }
 };
