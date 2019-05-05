@@ -54,4 +54,3 @@ function submitJetpack(){
     }
 }
 
-submit.addEventListener('click',submitJetpack);
