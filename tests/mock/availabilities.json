@@ -1,0 +1,61 @@
+{
+  "predicates": [
+    {
+      "equals": {
+        "method": "POST",
+        "path": "/bookings"
+      }
+    },
+    {
+      "matches": {
+      }
+    }
+  ],
+  "responses": [
+    {
+      "is": {
+        "headers": { "Access-Control-Allow-Origin": "*" },
+        "body": [
+          {
+              "jetpack_id": "a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d",
+              "start_date": "2019-04-09T08:37:38.579Z",
+              "end_date": "2020-04-09T08:37:38.579Z"
+          }
+        ]
+      }
+    }
+  ]
+},
+{
+  "predicates": [
+    {
+      "equals": {
+        "method": "GET",
+        "path": "/availabilities"
+      }
+    },
+    {
+      "matches": {
+      }
+    }
+  ],
+  "responses": [
+    {
+      "is": {
+        "headers": { "Access-Control-Allow-Origin": "*" },
+        "body": [
+          {
+              "jetpack_id": "a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d",
+              "start_date": "2019-04-09T08:37:38.579Z",
+              "end_date": "2020-04-09T08:37:38.579Z"
+          },
+          {
+              "jetpack_id": "a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d",
+              "start_date": "2018-04-09T08:37:38.579Z",
+              "end_date": "2019-04-09T08:37:38.579Z"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -24,22 +24,74 @@ describe('JetpackApi  get Jetpacks', function () {
     });
 });
 
-describe('JetpackApi  post Jetpacks', function () {
+      
+describe('JetpackApi  get Availabilites', function () {
 
-    test('Test postJetpack', () => {
+    test('Test getAvailabiliteis', () => {
         let httpClientMock = {
             fetch: jest.fn()
         };
 
         httpClientMock.fetch.mockResolvedValue([
             {
-                id: "123",
-                name: "The Jetpack",
-                image: "base64 ..."
+
+                jetpack_id: "123",
+                start_date: "startdate",
+                end_date: "enddate"
+               }
+        ]);
+        let jetpackApi = new JetpackApi(httpClientMock);
+
+        jetpackApi.getAvailabilities().then(resp => {
+            expect(Array.isArray(resp)).toBe(true);
+            expect(resp.length).toBe(1);
+            /* try to find more tests*/
+        });
+    });
+});
+    
+
+
+describe('JetpackApi  post Bookings', function () {
+
+    test('Test postBookings', () => {
+        let httpClientMock = {
+            fetch: jest.fn()
+        };
+
+        httpClientMock.fetch.mockResolvedValue([
+            {
+                jetpack_id: "123",
+                start_date: "startdate",
+                end_date: "enddate"
             }
         ]);
 
         let jetpackApi = new JetpackApi(httpClientMock);
+        jetpackApi.postBookings().then(resp => {
+            expect(Array.isArray(resp)).toBe(true);
+            expect(resp.length).toBe(1);
+            /* try to find more tests*/
+        });
+    });
+});
+
+  describe('JetpackApi  post Jetpacks', function () {
+
+    test('Test postJetpack', () => {
+        let httpClientMock = {
+            fetch: jest.fn()
+        };
+        let jetpackApi = new JetpackApi(httpClientMock);
+
+        
+         httpClientMock.fetch.mockResolvedValue([
+            {
+                jetpack_id: "123",
+                start_date: "startdate",
+                end_date: "enddate"
+            }
+        ]);
         jetpackApi.postJetpack().then(resp => {
             expect(Array.isArray(resp)).toBe(true);
             expect(resp.length).toBe(1);
@@ -47,3 +99,4 @@ describe('JetpackApi  post Jetpacks', function () {
         });
     });
 });
+
