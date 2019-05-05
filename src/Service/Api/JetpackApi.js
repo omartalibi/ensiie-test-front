@@ -18,7 +18,8 @@ module.exports = class  {
     }
 };
 
-postJetpack(jetpack) {
+postJetpack(jetpack) 
+{
     return this.httpClient.fetch('/jetpacks', {
         method: "POST", 
         body: JSON.stringify(jetpack) 
