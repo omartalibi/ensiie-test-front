@@ -27,4 +27,4 @@ postJetpack(jetpack)
     }).then(response => {
         return response;
     });
-}
+};
