@@ -40,7 +40,9 @@ describe('JetpackApi  get Availabilites', function () {
                 end_date: "enddate"
                }
         ]);
-      jetpackApi.getAvailabilities().then(resp => {
+        let jetpackApi = new JetpackApi(httpClientMock);
+
+        jetpackApi.getAvailabilities().then(resp => {
             expect(Array.isArray(resp)).toBe(true);
             expect(resp.length).toBe(1);
             /* try to find more tests*/
@@ -77,7 +79,9 @@ describe('JetpackApi  post Bookings', function () {
   describe('JetpackApi  post Jetpacks', function () {
 
     test('Test postJetpack', () => {
-
+        let httpClientMock = {
+            fetch: jest.fn()
+        };
         let jetpackApi = new JetpackApi(httpClientMock);
 
         
